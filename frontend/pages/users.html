@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Manage users, roles and account status.">
+  <title>Users — OpsDesk</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="../js/mock-data.js" defer></script>
+  <script src="../js/api.js" defer></script>
+  <script src="../js/ui.js" defer></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/users.js" defer></script>
+</head>
+<body data-page="protected">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <div id="demo-banner"></div>
+      <main class="page-content" id="page-content">
+        <div class="card table-card">
+          <div class="table-toolbar">
+            <div class="search-field input-icon">
+              <i data-lucide="search" class="icon"></i>
+              <label class="sr-only" for="user-search">Search users</label>
+              <input class="input" type="search" id="user-search" placeholder="Search name, email or department"
+                autocomplete="off">
+            </div>
+
+            <label class="sr-only" for="filter-role">Filter by role</label>
+            <select class="select" id="filter-role">
+              <option value="all">All roles</option>
+              <option value="administrator">Administrator</option>
+              <option value="manager">Manager</option>
+              <option value="employee">Employee</option>
+            </select>
+
+            <label class="sr-only" for="filter-user-status">Filter by status</label>
+            <select class="select" id="filter-user-status">
+              <option value="all">All statuses</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+
+            <button class="btn btn-ghost" type="button" id="reset-user-filters">
+              <i data-lucide="rotate-ccw" class="icon"></i>
+              Reset
+            </button>
+
+            <span class="spacer"></span>
+
+            <button class="btn btn-primary" type="button" id="new-user">
+              <i data-lucide="user-plus" class="icon"></i>
+              New user
+            </button>
+          </div>
+
+          <div class="loading-overlay" id="users-loading">
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Loading users…</span>
+          </div>
+
+          <div class="table-wrap" id="users-table-wrap" hidden>
+            <table class="data-table">
+              <caption class="sr-only">Registered users</caption>
+              <thead>
+                <tr>
+                  <th scope="col">User</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" class="hide-md">Department</th>
+                  <th scope="col" class="hide-sm">Last login</th>
+                  <th scope="col" class="table-actions-col"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="users-empty" hidden>
+            <span class="empty-state-icon"><i data-lucide="users" class="icon"></i></span>
+            <h3 id="users-empty-title">No users found</h3>
+            <p id="users-empty-text">Try adjusting your search or filters.</p>
+            <button class="btn btn-secondary btn-sm" type="button" id="users-empty-action">Clear filters</button>
+          </div>
+
+          <div class="table-footer" id="users-footer" hidden>
+            <span id="users-summary"></span>
+            <nav class="pagination" id="users-pagination" aria-label="User pagination"></nav>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Manage your OpsDesk profile, preferences and demo integration settings.">
+  <title>Settings — OpsDesk</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="../js/mock-data.js" defer></script>
+  <script src="../js/api.js" defer></script>
+  <script src="../js/ui.js" defer></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/settings.js" defer></script>
+</head>
+<body data-page="protected">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <div id="demo-banner"></div>
+      <main class="page-content" id="page-content">
+        <div class="settings-layout">
+          <div>
+            <article class="card settings-card" aria-labelledby="profile-title">
+              <div class="card-header">
+                <div>
+                  <h2 id="profile-title">Profile</h2>
+                  <p>Update the details shown across the workspace.</p>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="settings-profile-head" id="settings-profile">
+                  <span class="avatar lg" aria-hidden="true">--</span>
+                  <div>
+                    <h3>Loading…</h3>
+                    <p>Fetching profile</p>
+                  </div>
+                </div>
+
+                <form class="form-grid" id="profile-form" novalidate>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-name">Full name</label>
+                    <input class="input" type="text" id="profile-name" name="name" autocomplete="name" required>
+                    <p class="form-error" id="profile-name-error" aria-live="polite"></p>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-email">Email</label>
+                    <input class="input" type="email" id="profile-email" name="email" autocomplete="email" required>
+                    <p class="form-error" id="profile-email-error" aria-live="polite"></p>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-role">Role</label>
+                    <input class="input" type="text" id="profile-role" disabled>
+                    <p class="form-hint">Roles are managed from the Users page.</p>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-department">Department</label>
+                    <input class="input" type="text" id="profile-department" disabled>
+                    <p class="form-hint">Contact an administrator to change departments.</p>
+                  </div>
+                  <div class="span-2 inline">
+                    <button class="btn btn-primary" type="submit" id="profile-save">
+                      <i data-lucide="save" class="icon"></i>
+                      <span class="btn-label">Save profile</span>
+                    </button>
+                    <button class="btn btn-ghost" type="reset" id="profile-reset">Reset changes</button>
+                  </div>
+                </form>
+              </div>
+            </article>
+
+            <article class="card settings-card" aria-labelledby="preferences-title">
+              <div class="card-header">
+                <div>
+                  <h2 id="preferences-title">Preferences</h2>
+                  <p>Interface options are saved to this browser.</p>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="toggle-row">
+                  <div class="toggle-row-text">
+                    <strong>Compact sidebar</strong>
+                    <span>Collapse navigation to icons on desktop screens.</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="pref-compact">
+                    <span class="switch-track" aria-hidden="true"></span>
+                    <span class="sr-only">Compact sidebar</span>
+                  </label>
+                </div>
+                <div class="toggle-row">
+                  <div class="toggle-row-text">
+                    <strong>Show demo notice</strong>
+                    <span>Display the mock-mode banner at the top of workspace pages.</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="pref-banner">
+                    <span class="switch-track" aria-hidden="true"></span>
+                    <span class="sr-only">Show demo notice</span>
+                  </label>
+                </div>
+                <div class="toggle-row">
+                  <div class="toggle-row-text">
+                    <strong>Email notifications</strong>
+                    <span>Receive a daily digest of task and account activity.</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="pref-email">
+                    <span class="switch-track" aria-hidden="true"></span>
+                    <span class="sr-only">Email notifications</span>
+                  </label>
+                </div>
+                <div class="toggle-row">
+                  <div class="toggle-row-text">
+                    <strong>Desktop notifications</strong>
+                    <span>Show browser alerts for critical system events.</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="pref-desktop">
+                    <span class="switch-track" aria-hidden="true"></span>
+                    <span class="sr-only">Desktop notifications</span>
+                  </label>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div>
+            <article class="card settings-card" id="integration" aria-labelledby="integration-title">
+              <div class="card-header">
+                <div>
+                  <h2 id="integration-title">Backend integration</h2>
+                  <p>Configuration for the future FastAPI backend.</p>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="integration-status">
+                  <i data-lucide="flask-conical" class="icon"></i>
+                  <span>Mock mode is active. API calls are simulated locally.</span>
+                </div>
+
+                <div class="copy-row">
+                  <label class="sr-only" for="api-base-url">API base URL</label>
+                  <input class="input" type="text" id="api-base-url" readonly>
+                  <button class="btn btn-secondary" type="button" id="copy-api-url" aria-label="Copy API base URL">
+                    <i data-lucide="copy" class="icon"></i>
+                  </button>
+                </div>
+
+                <dl class="detail-list settings-list">
+                  <div class="detail-row">
+                    <dt>Data source</dt>
+                    <dd>Local mock layer</dd>
+                  </div>
+                  <div class="detail-row">
+                    <dt>Request timeout</dt>
+                    <dd id="api-timeout">—</dd>
+                  </div>
+                  <div class="detail-row">
+                    <dt>Authentication</dt>
+                    <dd>Bearer token</dd>
+                  </div>
+                  <div class="detail-row">
+                    <dt>Expected backend</dt>
+                    <dd>FastAPI + PostgreSQL</dd>
+                  </div>
+                </dl>
+
+                <div class="health-note">
+                  <i data-lucide="info" class="icon"></i>
+                  <span>
+                    Set <code class="mono">USE_MOCK_DATA = false</code> in
+                    <code class="mono">js/api.js</code> to route requests to the URL above. The API client
+                    already sends JSON and bearer tokens, and handles timeouts and errors.
+                  </span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card settings-card settings-danger" aria-labelledby="data-title">
+              <div class="card-header">
+                <div>
+                  <h2 id="data-title">Demo data</h2>
+                  <p>Reset tasks, users and logs to seeded values.</p>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="settings-data-text">
+                  Resetting removes every change saved in this browser and restores the original demo
+                  dataset. Your session and preferences are kept.
+                </p>
+                <button class="btn btn-danger-soft" type="button" id="reset-demo">
+                  <i data-lucide="rotate-ccw" class="icon"></i>
+                  Reset demo data
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>

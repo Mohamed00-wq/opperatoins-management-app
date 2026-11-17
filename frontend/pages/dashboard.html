@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Operations overview dashboard with workload and system signals.">
+  <title>Overview — OpsDesk</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="../js/mock-data.js" defer></script>
+  <script src="../js/api.js" defer></script>
+  <script src="../js/ui.js" defer></script>
+  <script src="../js/charts.js" defer></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/dashboard.js" defer></script>
+</head>
+<body data-page="protected">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <div id="demo-banner"></div>
+      <main class="page-content" id="page-content">
+        <div class="section-stack">
+          <section aria-labelledby="stats-title">
+            <h2 class="sr-only" id="stats-title">Key metrics</h2>
+            <div class="stat-grid" id="stat-grid" aria-live="polite"></div>
+          </section>
+
+          <div class="dashboard-grid">
+            <article class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h2>Task activity</h2>
+                  <p>Created versus completed tasks</p>
+                </div>
+                <div class="card-actions">
+                  <label class="sr-only" for="activity-range">Activity time range</label>
+                  <select class="select select-compact" id="activity-range">
+                    <option value="7">Last 7 days</option>
+                    <option value="14" selected>Last 14 days</option>
+                  </select>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrap" id="task-activity-chart" role="img" aria-label="Task activity over time"></div>
+              </div>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h2>Task status</h2>
+                  <p>Distribution across all tasks</p>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="status-chart" role="img" aria-label="Task status distribution"></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="dashboard-row">
+            <article class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h2>User activity</h2>
+                  <p>Distinct users with recorded events · last 7 days</p>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrap" id="user-activity-chart" role="img" aria-label="User activity by day"></div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <h2>System status</h2>
+                  <p>Current service signals</p>
+                </div>
+                <div class="card-actions">
+                  <a class="link-muted" href="system-health.html">Details <i data-lucide="arrow-right" class="icon icon-sm"></i></a>
+                </div>
+              </div>
+              <div class="system-status-list" id="system-status-list"></div>
+              <div class="system-status-summary" id="system-status-summary">
+                <i data-lucide="shield-check" class="icon"></i>
+                <span>All core services are operational.</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="dashboard-bottom">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <h2>Recent activity</h2>
+                  <p>Latest workspace events</p>
+                </div>
+                <div class="card-actions">
+                  <a class="link-muted" href="activity-logs.html">View all <i data-lucide="arrow-right" class="icon icon-sm"></i></a>
+                </div>
+              </div>
+              <div class="activity-list" id="recent-activity"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <h2>Recent tasks</h2>
+                  <p>Newest work items</p>
+                </div>
+                <div class="card-actions">
+                  <a class="link-muted" href="tasks.html">View all <i data-lucide="arrow-right" class="icon icon-sm"></i></a>
+                </div>
+              </div>
+              <div class="mini-task-list" id="recent-tasks"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <h2>Quick actions</h2>
+                  <p>Common workspace tasks</p>
+                </div>
+              </div>
+              <div class="quick-actions">
+                <a class="quick-action" href="tasks.html?new=1">
+                  <span class="quick-action-icon"><i data-lucide="plus" class="icon"></i></span>
+                  <span class="quick-action-text"><strong>Create task</strong><span>Assign and schedule work</span></span>
+                  <i data-lucide="chevron-right" class="icon"></i>
+                </a>
+                <a class="quick-action" href="users.html?new=1">
+                  <span class="quick-action-icon"><i data-lucide="user-plus" class="icon"></i></span>
+                  <span class="quick-action-text"><strong>Invite user</strong><span>Add a team member</span></span>
+                  <i data-lucide="chevron-right" class="icon"></i>
+                </a>
+                <a class="quick-action" href="activity-logs.html">
+                  <span class="quick-action-icon"><i data-lucide="scroll-text" class="icon"></i></span>
+                  <span class="quick-action-text"><strong>Review audit trail</strong><span>Inspect recent events</span></span>
+                  <i data-lucide="chevron-right" class="icon"></i>
+                </a>
+                <a class="quick-action" href="system-health.html">
+                  <span class="quick-action-icon"><i data-lucide="activity" class="icon"></i></span>
+                  <span class="quick-action-text"><strong>Run health check</strong><span>Inspect service signals</span></span>
+                  <i data-lucide="chevron-right" class="icon"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>

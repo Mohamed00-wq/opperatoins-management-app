@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create, assign and track operations tasks.">
+  <title>Tasks — OpsDesk</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="../js/mock-data.js" defer></script>
+  <script src="../js/api.js" defer></script>
+  <script src="../js/ui.js" defer></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/tasks.js" defer></script>
+</head>
+<body data-page="protected">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <div id="demo-banner"></div>
+      <main class="page-content" id="page-content">
+        <div class="card table-card">
+          <div class="table-toolbar">
+            <div class="search-field input-icon">
+              <i data-lucide="search" class="icon"></i>
+              <label class="sr-only" for="task-search">Search tasks</label>
+              <input class="input" type="search" id="task-search" placeholder="Search tasks, IDs or assignees"
+                autocomplete="off">
+            </div>
+
+            <label class="sr-only" for="filter-status">Filter by status</label>
+            <select class="select" id="filter-status">
+              <option value="all">All statuses</option>
+              <option value="pending">Pending</option>
+              <option value="in_progress">In progress</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+
+            <label class="sr-only" for="filter-priority">Filter by priority</label>
+            <select class="select" id="filter-priority">
+              <option value="all">All priorities</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+
+            <button class="btn btn-ghost" type="button" id="reset-filters">
+              <i data-lucide="rotate-ccw" class="icon"></i>
+              Reset
+            </button>
+
+            <span class="spacer"></span>
+
+            <button class="btn btn-primary" type="button" id="new-task">
+              <i data-lucide="plus" class="icon"></i>
+              New task
+            </button>
+          </div>
+
+          <div class="loading-overlay" id="tasks-loading">
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Loading tasks…</span>
+          </div>
+
+          <div class="table-wrap" id="tasks-table-wrap" hidden>
+            <table class="data-table">
+              <caption class="sr-only">Operations tasks</caption>
+              <thead>
+                <tr>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-btn" type="button" data-sort="title">
+                      <span>Task</span><i data-lucide="chevrons-up-down" class="icon sort-icon"></i>
+                    </button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-btn" type="button" data-sort="assignee">
+                      <span>Assignee</span><i data-lucide="chevrons-up-down" class="icon sort-icon"></i>
+                    </button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-btn" type="button" data-sort="priority">
+                      <span>Priority</span><i data-lucide="chevrons-up-down" class="icon sort-icon"></i>
+                    </button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-btn" type="button" data-sort="status">
+                      <span>Status</span><i data-lucide="chevrons-up-down" class="icon sort-icon"></i>
+                    </button>
+                  </th>
+                  <th scope="col" class="hide-md" aria-sort="none">
+                    <button class="sort-btn" type="button" data-sort="dueDate">
+                      <span>Due date</span><i data-lucide="chevrons-up-down" class="icon sort-icon"></i>
+                    </button>
+                  </th>
+                  <th scope="col" class="hide-sm" aria-sort="none">
+                    <button class="sort-btn" type="button" data-sort="createdDate">
+                      <span>Created</span><i data-lucide="chevrons-up-down" class="icon sort-icon"></i>
+                    </button>
+                  </th>
+                  <th scope="col" class="table-actions-col">
+                    <span class="sr-only">Actions</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="tasks-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="tasks-empty" hidden>
+            <span class="empty-state-icon"><i data-lucide="search-x" class="icon"></i></span>
+            <h3 id="tasks-empty-title">No tasks found</h3>
+            <p id="tasks-empty-text">Try adjusting your search or filters.</p>
+            <button class="btn btn-secondary btn-sm" type="button" id="tasks-empty-action">Clear filters</button>
+          </div>
+
+          <div class="table-footer" id="tasks-footer" hidden>
+            <span id="tasks-summary"></span>
+            <nav class="pagination" id="tasks-pagination" aria-label="Task pagination"></nav>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>

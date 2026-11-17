@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Audit trail of user actions, task changes and system events.">
+  <title>Activity Logs — OpsDesk</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="../js/mock-data.js" defer></script>
+  <script src="../js/api.js" defer></script>
+  <script src="../js/ui.js" defer></script>
+  <script src="../js/auth.js" defer></script>
+  <script src="../js/logs.js" defer></script>
+</head>
+<body data-page="protected">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <div id="demo-banner"></div>
+      <main class="page-content" id="page-content">
+        <div class="card table-card">
+          <div class="table-toolbar">
+            <div class="search-field input-icon">
+              <i data-lucide="search" class="icon"></i>
+              <label class="sr-only" for="log-search">Search activity</label>
+              <input class="input" type="search" id="log-search" placeholder="Search user, action or IP"
+                autocomplete="off">
+            </div>
+
+            <label class="sr-only" for="filter-severity">Filter by severity</label>
+            <select class="select" id="filter-severity">
+              <option value="all">All severities</option>
+              <option value="info">Info</option>
+              <option value="success">Success</option>
+              <option value="warning">Warning</option>
+              <option value="critical">Critical</option>
+            </select>
+
+            <label class="sr-only" for="filter-log-type">Filter by event type</label>
+            <select class="select" id="filter-log-type">
+              <option value="all">All event types</option>
+              <option value="auth">Authentication</option>
+              <option value="task">Tasks</option>
+              <option value="user">Users</option>
+              <option value="system">System</option>
+            </select>
+
+            <button class="btn btn-ghost" type="button" id="reset-log-filters">
+              <i data-lucide="rotate-ccw" class="icon"></i>
+              Reset
+            </button>
+
+            <span class="spacer"></span>
+
+            <button class="btn btn-secondary" type="button" id="export-logs">
+              <i data-lucide="download" class="icon"></i>
+              Export CSV
+            </button>
+          </div>
+
+          <div class="loading-overlay" id="logs-loading">
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Loading activity…</span>
+          </div>
+
+          <div class="table-wrap" id="logs-table-wrap" hidden>
+            <table class="data-table">
+              <caption class="sr-only">Workspace activity log</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Timestamp</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">User</th>
+                  <th scope="col">Severity</th>
+                  <th scope="col" class="hide-md">IP address</th>
+                </tr>
+              </thead>
+              <tbody id="logs-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="logs-empty" hidden>
+            <span class="empty-state-icon"><i data-lucide="scroll-text" class="icon"></i></span>
+            <h3 id="logs-empty-title">No activity found</h3>
+            <p id="logs-empty-text">Try adjusting your search or filters.</p>
+            <button class="btn btn-secondary btn-sm" type="button" id="logs-empty-action">Clear filters</button>
+          </div>
+
+          <div class="table-footer" id="logs-footer" hidden>
+            <span id="logs-summary"></span>
+            <nav class="pagination" id="logs-pagination" aria-label="Activity log pagination"></nav>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>
