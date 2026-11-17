@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sign in to the OpsDesk operations management workspace.">
+  <title>Sign in — OpsDesk</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="js/mock-data.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/ui.js" defer></script>
+  <script src="js/auth.js" defer></script>
+</head>
+<body class="auth-body" data-page="login">
+  <div class="auth-layout">
+    <aside class="auth-side">
+      <a class="auth-brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"><i data-lucide="blocks" class="icon-lg"></i></span>
+        OpsDesk
+      </a>
+
+      <div class="auth-hero">
+        <span class="auth-eyebrow"><i data-lucide="sparkles" class="icon icon-sm"></i> Operations Management System</span>
+        <h1>Run your operations with <span>clarity</span>.</h1>
+        <p>
+          One workspace for task orchestration, team governance, audit trails and service health — built for
+          teams that need reliable execution every day.
+        </p>
+        <div class="auth-features">
+          <div class="auth-feature">
+            <i data-lucide="list-checks" class="icon"></i>
+            <div>
+              <strong>Task orchestration</strong>
+              <span>Plan, assign and track work across teams.</span>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <i data-lucide="users-round" class="icon"></i>
+            <div>
+              <strong>User governance</strong>
+              <span>Manage roles, access and account status.</span>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <i data-lucide="scroll-text" class="icon"></i>
+            <div>
+              <strong>Audit trail</strong>
+              <span>Review every action with severity context.</span>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <i data-lucide="activity" class="icon"></i>
+            <div>
+              <strong>Service health</strong>
+              <span>Monitor the signals that matter in one view.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="auth-side-footer">Demo frontend · No production data is used or stored on a server.</p>
+    </aside>
+
+    <main class="auth-panel">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h2>Welcome back</h2>
+          <p>New to OpsDesk? <a href="register.html">Create an account</a></p>
+        </div>
+
+        <div class="auth-alert" id="login-alert" role="alert" hidden>
+          <i data-lucide="alert-circle" class="icon icon-sm"></i>
+          <span data-alert-message></span>
+        </div>
+
+        <form class="auth-form" id="login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="login-email">Work email</label>
+            <div class="input-icon">
+              <i data-lucide="mail" class="icon"></i>
+              <input class="input" type="email" id="login-email" name="email" autocomplete="email"
+                placeholder="you@company.com" aria-describedby="login-email-error" required autofocus>
+            </div>
+            <p class="form-error" data-error-for="login-email" id="login-email-error" aria-live="polite"></p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="login-password">Password</label>
+            <div class="password-field">
+              <input class="input" type="password" id="login-password" name="password"
+                autocomplete="current-password" placeholder="Enter your password"
+                aria-describedby="login-password-error" required>
+              <button class="password-toggle" type="button" data-password-toggle="login-password"
+                aria-label="Show password" aria-pressed="false">
+                <i data-lucide="eye" class="icon"></i>
+              </button>
+            </div>
+            <p class="form-error" data-error-for="login-password" id="login-password-error" aria-live="polite"></p>
+          </div>
+
+          <div class="field-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="remember-me" name="remember">
+              Remember me on this device
+            </label>
+          </div>
+
+          <button class="btn btn-primary btn-lg btn-block" type="submit" id="login-submit">
+            <i data-lucide="log-in" class="icon"></i>
+            <span class="btn-label">Sign in</span>
+          </button>
+        </form>
+
+        <div class="demo-credentials">
+          <div class="demo-credentials-header">
+            <i data-lucide="flask-conical" class="icon"></i>
+            Demo environment
+          </div>
+          <div class="demo-credential-row">
+            <span>Administrator</span>
+            <code>admin@opsdesk.io</code>
+          </div>
+          <div class="demo-credential-row">
+            <span>Password</span>
+            <code>Admin@123</code>
+          </div>
+          <button class="btn btn-secondary btn-sm demo-fill-btn" type="button" id="use-demo-credentials">
+            <i data-lucide="wand-2" class="icon"></i>
+            Use demo credentials
+          </button>
+        </div>
+
+        <p class="auth-footer-note">
+          Authentication is simulated in this demo build. Do not enter real credentials.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create an OpsDesk operations management account.">
+  <title>Create account — OpsDesk</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="js/mock-data.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/ui.js" defer></script>
+  <script src="js/auth.js" defer></script>
+</head>
+<body class="auth-body" data-page="register">
+  <div class="auth-layout">
+    <aside class="auth-side">
+      <a class="auth-brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"><i data-lucide="blocks" class="icon-lg"></i></span>
+        OpsDesk
+      </a>
+
+      <div class="auth-hero">
+        <span class="auth-eyebrow"><i data-lucide="user-plus" class="icon icon-sm"></i> Get started in minutes</span>
+        <h1>Your operations, <span>under control</span>.</h1>
+        <p>
+          Create a demo account to explore the full operations workspace. Tasks, users, audit logs and
+          service health are all available with realistic local sample data.
+        </p>
+        <div class="auth-features">
+          <div class="auth-feature">
+            <i data-lucide="layout-dashboard" class="icon"></i>
+            <div>
+              <strong>Unified dashboard</strong>
+              <span>Track workload and system signals at a glance.</span>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <i data-lucide="shield-check" class="icon"></i>
+            <div>
+              <strong>Role-based access</strong>
+              <span>Administrator, manager and employee roles.</span>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <i data-lucide="git-branch" class="icon"></i>
+            <div>
+              <strong>Backend ready</strong>
+              <span>Prepared for a future FastAPI integration.</span>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <i data-lucide="database" class="icon"></i>
+            <div>
+              <strong>Local demo data</strong>
+              <span>Your changes persist in this browser only.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="auth-side-footer">Demo frontend · Registration is simulated and stored locally.</p>
+    </aside>
+
+    <main class="auth-panel">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h2>Create your account</h2>
+          <p>Already have an account? <a href="login.html">Sign in</a></p>
+        </div>
+
+        <div class="auth-alert" id="register-alert" role="alert" hidden>
+          <i data-lucide="alert-circle" class="icon icon-sm"></i>
+          <span data-alert-message></span>
+        </div>
+
+        <form class="auth-form" id="register-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="register-name">Full name</label>
+            <div class="input-icon">
+              <i data-lucide="user" class="icon"></i>
+              <input class="input" type="text" id="register-name" name="name" autocomplete="name"
+                placeholder="Alex Morgan" aria-describedby="register-name-error" required autofocus>
+            </div>
+            <p class="form-error" data-error-for="register-name" id="register-name-error" aria-live="polite"></p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="register-email">Work email</label>
+            <div class="input-icon">
+              <i data-lucide="mail" class="icon"></i>
+              <input class="input" type="email" id="register-email" name="email" autocomplete="email"
+                placeholder="you@company.com" aria-describedby="register-email-error" required>
+            </div>
+            <p class="form-error" data-error-for="register-email" id="register-email-error" aria-live="polite"></p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="register-password">Password</label>
+            <div class="password-field">
+              <input class="input" type="password" id="register-password" name="password"
+                autocomplete="new-password" placeholder="At least 8 characters"
+                aria-describedby="password-strength register-password-error" required>
+              <button class="password-toggle" type="button" data-password-toggle="register-password"
+                aria-label="Show password" aria-pressed="false">
+                <i data-lucide="eye" class="icon"></i>
+              </button>
+            </div>
+            <div class="password-strength" id="password-strength">
+              <div class="strength-bars" aria-hidden="true">
+                <span class="strength-bar"></span>
+                <span class="strength-bar"></span>
+                <span class="strength-bar"></span>
+                <span class="strength-bar"></span>
+              </div>
+              <div class="strength-text">
+                <span>Password strength</span>
+                <strong data-strength-label>Enter a password</strong>
+              </div>
+            </div>
+            <p class="form-error" data-error-for="register-password" id="register-password-error" aria-live="polite"></p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="register-confirm">Confirm password</label>
+            <div class="password-field">
+              <input class="input" type="password" id="register-confirm" name="confirm"
+                autocomplete="new-password" placeholder="Repeat your password"
+                aria-describedby="register-confirm-error" required>
+              <button class="password-toggle" type="button" data-password-toggle="register-confirm"
+                aria-label="Show password" aria-pressed="false">
+                <i data-lucide="eye" class="icon"></i>
+              </button>
+            </div>
+            <p class="form-error" data-error-for="register-confirm" id="register-confirm-error" aria-live="polite"></p>
+          </div>
+
+          <p class="auth-terms">
+            This is a demo environment. Accounts and data are stored in your browser and are not sent to a
+            server. By continuing you acknowledge the <a href="index.html">demo terms</a>.
+          </p>
+
+          <button class="btn btn-primary btn-lg btn-block" type="submit" id="register-submit">
+            <i data-lucide="user-plus" class="icon"></i>
+            <span class="btn-label">Create account</span>
+          </button>
+        </form>
+
+        <p class="auth-footer-note">
+          You can always sign in with the seeded demo administrator:<br>
+          <span class="mono">admin@opsdesk.io</span> · <span class="mono">Admin@123</span>
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>
